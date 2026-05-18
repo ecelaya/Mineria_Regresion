@@ -1,0 +1,21 @@
+# Entorno virtual
+venv/
+# Cache Python
+__pycache__/
+*.pyc
+# VS Code
+.vscode/
+# Binarios
+*.pickle
+# Ignorar datasets por defecto
+*.csv
+*.xlsx
+# Mantener este Excel
+!DatosEleccionesEspaña.xlsx
+# Mantener PDFs
+!*.pdf
+# Ignorar scripts de ejemplo
+CodigoCompletoEjemplo1.py
+CodigoCompletoEjemplo2.py
+CodigoCompletoEjemplo3.py
+CodigoCompletoEjemplo4.py
