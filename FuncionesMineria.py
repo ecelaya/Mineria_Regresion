@@ -193,8 +193,8 @@ def patron_perdidos(datos_input):
     mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
     
     # Configuro el tamaño de la figura y el tamaño de la fuente en el gráfico
-    plt.figure(figsize=(8, 6))
-    sns.set(font_scale=1.2)
+    plt.figure(figsize=(10, 8))
+    sns.set(font_scale=0.8)
     
     # Genero un mapa de calor (heatmap) de la matriz de correlación de valores ausentes
     # 'annot=True' muestra los valores dentro de las celdas
