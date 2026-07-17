@@ -1,192 +1,134 @@
-# Análisis de la abstención electoral en municipios españoles
+# Electoral Abstention Analysis in Spanish Municipalities
 
-Proyecto final de la asignatura **Minería de Datos y Modelización Predictiva** del Máster en Big Data, Data Science & Inteligencia Artificial (UCM).
+Final project for the **Data Mining and Predictive Modelling** module, MSc in Big Data, Data Science & Artificial Intelligence (UCM).
 
-## Objetivo
+## Objective
 
-El proyecto analiza los factores demográficos, económicos y territoriales asociados a la abstención electoral en municipios españoles mediante técnicas de modelización predictiva.
+Analyse the demographic, economic and territorial factors associated with electoral abstention across Spanish municipalities using predictive modelling techniques.
 
-Se desarrollan dos modelos:
+Two models are developed:
 
-- **Regresión lineal** para predecir el porcentaje de abstención (`AbstentionPtge`)
-- **Regresión logística** para clasificar municipios con abstención elevada (`AbstencionAlta`)
-
----
-
-# Estructura del proyecto
-
-```text
-.
-├── DatosEleccionesEspaña.xlsx
-├── EjercicioEvaluación.pdf
-├── GuíaElaboraciónTarea.pdf
-├── FuncionesMineria.py
-├── Tarea_Final.ipynb
-├── Tarea_Final_Memoria_Eloy.pdf
-├── librerias.txt
-└── .gitignore
-```
+- **Linear regression** to predict the abstention percentage (`AbstentionPtge`)
+- **Logistic regression** to classify municipalities with high abstention (`AbstencionAlta`)
 
 ---
 
-# Dataset
+## Project structure
 
-El dataset contiene información de **8.117 municipios españoles** con variables de:
+    .
+    ├── DatosEleccionesEspaña.xlsx
+    ├── FuncionesMineria.py
+    ├── Tarea_Final.ipynb
+    ├── Tarea_Final_Memoria_Eloy.pdf
+    ├── librerias.txt
+    └── .gitignore
 
-- Demografía
-- Mercado laboral
-- Actividad económica
-- Territorio y densidad
-- Indicadores electorales
+---
 
-Variables objetivo:
+## Dataset
 
-| Variable | Descripción |
+The dataset contains information on **8,117 Spanish municipalities** with variables covering:
+
+- Demographics
+- Labour market
+- Economic activity
+- Territory and population density
+- Electoral indicators
+
+Target variables:
+
+| Variable | Description |
 |---|---|
-| `AbstentionPtge` | Porcentaje de abstención |
-| `AbstencionAlta` | 1 si abstención > 30%, 0 en caso contrario |
+| `AbstentionPtge` | Abstention percentage |
+| `AbstencionAlta` | 1 if abstention > 30%, 0 otherwise |
 
 ---
 
-# Preprocesamiento
+## Preprocessing
 
-## Corrección de errores
+### Data cleaning
 
-- Conversión de variables categóricas
-- Sustitución de códigos artificiales de missing (`999`, `99999`)
-- Corrección de porcentajes fuera de rango
-- Reagrupación de categorías poco representadas
-- Tratamiento de categorías desconocidas
+- Conversion of categorical variables
+- Replacement of artificial missing codes (`999`, `99999`)
+- Correction of out-of-range percentages
+- Regrouping of underrepresented categories
+- Treatment of unknown categories
 
-## Outliers
+### Outliers
 
-Detección mediante:
+Detection via standard deviation and interquartile range (IQR). Outliers were transformed to missing for subsequent imputation.
 
-- Desviación típica
-- Rango intercuartílico (IQR)
+### Missing values
 
-Los valores atípicos se transformaron a missing para su posterior imputación.
-
-## Missing values
-
-- Análisis del patrón de missings
-- Creación de variable `prop_missings`
-- Imputación aleatoria de variables numéricas y categóricas
+- Missing pattern analysis
+- Creation of `prop_missings` variable
+- Random imputation of numerical and categorical variables
 
 ---
 
-# Modelos desarrollados
+## Models
 
-## Regresión lineal
+### Linear regression
 
-Predicción de:
+Predicts `AbstentionPtge`
 
-```python
-AbstentionPtge
-```
+| Method | Criterion |
+|---|---|
+| Forward | AIC / BIC |
+| Backward | AIC / BIC |
+| Stepwise | AIC / BIC |
 
-### Métodos de selección
+Best model: Forward / Stepwise BIC
 
-- Forward
-- Backward
-- Stepwise
-
-Con criterios:
-
-- AIC
-- BIC
-
-### Mejor modelo
-
-Forward / Stepwise BIC
-
-### Resultados
-
-| Métrica | Valor |
+| Metric | Value |
 |---|---|
 | R² train | 0.425 |
 | R² test | 0.412 |
-| Nº parámetros | 61 |
+| No. parameters | 61 |
 
----
+### Logistic regression
 
-## Regresión logística
+Classifies `AbstencionAlta`
 
-Clasificación de:
+Best model: Forward AIC / BIC — optimal cut-off: **0.30** (Youden index)
 
-```python
-AbstencionAlta
-```
-
-### Métricas utilizadas
-
-- Pseudo-R² de McFadden
-- AUC ROC
-- Accuracy
-- Sensitivity
-- Specificity
-
-### Mejor modelo
-
-Forward AIC / BIC
-
-### Resultados
-
-| Métrica | Valor |
+| Metric | Value |
 |---|---|
-| pR² test | 0.276 |
-| AUC test | 0.835 |
+| McFadden pseudo-R² (test) | 0.276 |
+| AUC ROC (test) | 0.835 |
 | Accuracy | 0.779 |
 | Sensitivity | 0.709 |
 
-Punto de corte óptimo:
+---
 
-```python
-0.30
-```
+## Key findings
+
+- Province (`CodigoProvincia`) is the strongest predictor of abstention.
+- Territorial rootedness (`SameComAutonPtge`) is associated with higher electoral participation.
+- Municipal economic structure adds additional explanatory power.
+- Both models generalise well with low overfitting.
 
 ---
 
-# Principales conclusiones
+## Tech stack
 
-- La provincia (`CodigoProvincia`) es el predictor más relevante de la abstención.
-- El arraigo territorial (`SameComAutonPtge`) se asocia con mayor participación electoral.
-- La estructura económica municipal aporta capacidad explicativa adicional.
-- Ambos modelos presentan buena generalización y bajo sobreajuste.
+- Python — pandas, numpy, scikit-learn, statsmodels, matplotlib, seaborn
 
 ---
 
-# Tecnologías utilizadas
-
-- Python
-- pandas
-- numpy
-- scikit-learn
-- statsmodels
-- matplotlib
-- seaborn
-
----
-
-# Ejecución
-
-## Instalar dependencias
+## Setup
 
 ```bash
 pip install -r librerias.txt
-```
-
-## Ejecutar notebook
-
-```bash
 jupyter notebook Tarea_Final.ipynb
 ```
 
 ---
 
-# Autor
+## Author
 
 **Eloy Celaya López**
+MSc in Big Data, Data Science & Artificial Intelligence — Universidad Complutense de Madrid
 
-Máster en Big Data, Data Science & Inteligencia Artificial  
-Universidad Complutense de Madrid
+Academic project — Data Mining and Predictive Modelling, MSc NTIC (UCM), 2026–2027
+*(Full report available in Spanish — `Tarea_Final_Memoria_Eloy.pdf`)*
